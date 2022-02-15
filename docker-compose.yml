@@ -247,56 +247,6 @@ services:
       - "traefik.http.routers.dash-rtr.service=dash-svc"
       - "traefik.http.services.dash-svc.loadbalancer.server.port=5005"
 
-#   wallabag:
-#     container_name: wallabag
-#     image: wallabag/wallabag
-#     networks:
-#       - t2_proxy
-#     environment:
-#       - MYSQL_ROOT_PASSWORD=$WALLABAG_DB_ROOT_PASSWORD 
-#       - SYMFONY__ENV__FOSUSER_CONFIRMATION=false
-#       - SYMFONY__ENV__FOSUSER_REGISTRATION=false
-#       - SYMFONY__ENV__TWOFACTOR_AUTH=false
-#       - SYMFONY__ENV__DATABASE_DRIVER=pdo_mysql
-#       - SYMFONY__ENV__DATABASE_HOST=wallabag_db
-#       - SYMFONY__ENV__DATABASE_PORT=3306
-#       - SYMFONY__ENV__DATABASE_NAME=wallabag
-#       - SYMFONY__ENV__DATABASE_USER=$WALLABAG_DB_USER
-#       - SYMFONY__ENV__DATABASE_PASSWORD=$WALLABAG_DB_PASSWORD
-#       - SYMFONY__ENV__DATABASE_CHARSET=utf8mb4
-#       - SYMFONY__ENV__MAILER_HOST=127.0.0.1
-#       - SYMFONY__ENV__MAILER_USER=~
-#       - SYMFONY__ENV__MAILER_PASSWORD=~
-#       - SYMFONY__ENV__FROM_EMAIL=wallabag@$DOMAINNAME
-#       - SYMFONY__ENV__DOMAIN_NAME=https://wallabag.$DOMAINNAME
-#       - SYMFONY__ENV__SERVER_NAME="Wallabag Cloud"
-#     volumes:
-#       - $DATA_DIR/wallabag/data:/var/www/wallabag/data
-#       - $DATA_DIR/wallabag/images:/var/www/wallabag/web/assets/images
-#     depends_on:
-#       - wallabag_db
-#       - redis
-#     labels:
-#       - "traefik.enable=true"
-#       ## HTTP Routers
-#       - "traefik.http.routers.wallabag-rtr.entrypoints=https"
-#       - "traefik.http.routers.wallabag-rtr.rule=Host(`wallabag.$DOMAINNAME`)"
-#       ## Middlewares
-#       - "traefik.http.routers.wallabag-rtr.middlewares=chain-no-auth@file"
-#       ## HTTP Services
-#       - "traefik.http.routers.wallabag-rtr.service=wallabag-svc"
-#       - "traefik.http.services.wallabag-svc.loadbalancer.server.port=80"
-
-#   wallabag_db:
-#     container_name: wallabag_db
-#     image: mariadb
-#     networks:
-#       - t2_proxy
-#     environment:
-#       - MYSQL_ROOT_PASSWORD=$WALLABAG_DB_ROOT_PASSWORD
-#     volumes:
-#       - $DATA_DIR/wallabag_db:/var/lib/mysql
-
   # Password Safe
   vaultwarden:
     container_name: vaultwarden
@@ -332,14 +282,6 @@ services:
       - "traefik.http.routers.vw-rtr.service=vw-svc"
       - "traefik.http.services.vw-svc.loadbalancer.server.port=80"
 
-  # redis:
-  #   container_name: redis
-  #   image: redis
-  #   restart: always
-  #   networks:
-  #     - t2_proxy
-  #   volumes:
-  #     - $DATA_DIR/redis:/data
 
   freshrss:
     container_name: freshrss
@@ -380,31 +322,6 @@ services:
       - default
     restart: always
 
-  # syncthing:
-  #   image: lscr.io/linuxserver/syncthing
-  #   container_name: syncthing
-  #   networks:
-  #     - t2_proxy
-  #   ports:
-  #     - 22000:22000
-  #     - 21027:21027/udp
-  #   environment:
-  #     - PUID=$PUID
-  #     - PGID=$PGID
-  #     - TZ=$TZ
-  #   volumes:
-  #     - $DATA_DIR/syncthing/config:/config
-  #   restart: unless-stopped
-  #   labels:
-  #     - "traefik.enable=true"
-  #     ## HTTP Routers
-  #     - "traefik.http.routers.syncthing-rtr.entrypoints=https"
-  #     - "traefik.http.routers.syncthing-rtr.rule=Host(`syncthing.$DOMAINNAME`)"
-  #     ## Middlewares
-  #     - "traefik.http.routers.syncthing-rtr.middlewares=chain-no-auth@file"
-  #     ## HTTP Services
-  #     - "traefik.http.routers.syncthing-rtr.service=syncthing-svc"
-  #     - "traefik.http.services.syncthing-svc.loadbalancer.server.port=8384"
   
   archivebox:
     image: archivebox/archivebox:latest
